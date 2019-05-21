@@ -49,21 +49,21 @@ public class TicTacToeGameTest {
 		//Se resetea el registro de llamadas
 		reset(c1);
 		reset(c2);
-	}
-
-	@Test
-	public void ganaPrimero() {
-		this.game.mark(8);
+		
+		this.game.mark(4);
 		//Comprobamos que el turno le pertenezca al segundo jugador
 		verify(c1,times(0)).sendEvent(EventType.SET_TURN, this.game.getPlayers().get(0));
 		verify(c2,times(1)).sendEvent(EventType.SET_TURN, this.game.getPlayers().get(1));
 		
-		
-		this.game.mark(0);
 		this.game.mark(2);
+		this.game.mark(0);
 		reset(c1);
 		reset(c2);
-		this.game.mark(6);
+	}
+
+	@Test
+	public void ganaPrimero() {
+		this.game.mark(5);
 		
 		//Comprobamos que sea de nuevo el turno del primer jugador
 		verify(c1,times(1)).sendEvent(EventType.SET_TURN, this.game.getPlayers().get(0));
@@ -73,7 +73,7 @@ public class TicTacToeGameTest {
 		verify(c1,times(0)).sendEvent(eq(EventType.GAME_OVER), argument.capture());
 		verify(c2,times(0)).sendEvent(eq(EventType.GAME_OVER), argument.capture());
 		
-		this.game.mark(5);
+		this.game.mark(8);
 		
 		//Comprobamos que ha ganado el jugador 1 en las posiciones establecidas
 		verify(c1,times(1)).sendEvent(eq(EventType.GAME_OVER), argument.capture());
@@ -81,7 +81,7 @@ public class TicTacToeGameTest {
 		Player ganador = argument.getValue().player;
 		int [] posicionesGanadoras = argument.getValue().pos;
 		
-		int [] pos ={2,5,8};
+		int [] pos ={0,4,8};
 		
 		assertEquals(ganador,p1);
 		assertArrayEquals(pos,posicionesGanadoras);
@@ -89,22 +89,13 @@ public class TicTacToeGameTest {
 	
 	@Test
 	public void pierdePrimero() {
-		this.game.mark(0);
-		//Comprobamos que el turno le pertenezca al segundo jugador
-		verify(c1,times(0)).sendEvent(EventType.SET_TURN, this.game.getPlayers().get(0));
-		verify(c2,times(1)).sendEvent(EventType.SET_TURN, this.game.getPlayers().get(1));
-		
 		this.game.mark(8);
-		this.game.mark(6);
-		reset(c1);
-		reset(c2);
-		this.game.mark(2);
 		
 		//Comprobamos que sea de nuevo el turno del primer jugador
 		verify(c1,times(1)).sendEvent(EventType.SET_TURN, this.game.getPlayers().get(0));
 		verify(c2,times(0)).sendEvent(EventType.SET_TURN, this.game.getPlayers().get(1));
 
-		this.game.mark(4);
+		this.game.mark(3);
 		ArgumentCaptor<WinnerValue> argument = ArgumentCaptor.forClass(WinnerValue.class);
 		verify(c1,times(0)).sendEvent(eq(EventType.GAME_OVER), argument.capture());
 		verify(c2,times(0)).sendEvent(eq(EventType.GAME_OVER), argument.capture());
@@ -125,27 +116,17 @@ public class TicTacToeGameTest {
 	
 	@Test
 	public void empate() {
-		
-		this.game.mark(4);
-		//Comprobamos que el turno le pertenezca al segundo jugador
-		verify(c1,times(0)).sendEvent(EventType.SET_TURN, this.game.getPlayers().get(0));
-		verify(c2,times(1)).sendEvent(EventType.SET_TURN, this.game.getPlayers().get(1));
-		
-		this.game.mark(0);
-		this.game.mark(2);
-		reset(c1);
-		reset(c2);
-		this.game.mark(6);
+		this.game.mark(8);
 		
 		//Comprobamos que sea de nuevo el turno del primer jugador
 		verify(c1,times(1)).sendEvent(EventType.SET_TURN, this.game.getPlayers().get(0));
 		verify(c2,times(0)).sendEvent(EventType.SET_TURN, this.game.getPlayers().get(1));
 		
-		this.game.mark(3);
-		this.game.mark(5);
-		this.game.mark(7);
+		this.game.mark(6);
 		this.game.mark(1);
-		this.game.mark(8);
+		this.game.mark(5);
+		this.game.mark(3);
+		this.game.mark(7);
 		
 		//Comprobamos que efectivamente se ha producido un empate
 		//Por lo tanto, el argumento devuelto con el evento GAME_OVER sera vacio
