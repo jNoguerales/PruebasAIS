@@ -23,8 +23,6 @@ public class AppTest {
 	WebDriver driver2;
 	WebDriverWait waitJaime;
 	WebDriverWait waitBea;
-	WebElement button1;
-	WebElement button2;
 	
 	@BeforeClass
 	public static void setUpClass() throws Exception {
@@ -50,8 +48,8 @@ public class AppTest {
 		bea.sendKeys("Bea");
 		
 		
-		button1 = driver1.findElement(By.id("startBtn"));
-		button2 = driver2.findElement(By.id("startBtn"));
+		WebElement button1 = driver1.findElement(By.id("startBtn"));
+		WebElement button2 = driver2.findElement(By.id("startBtn"));
 		button1.click();
 		button2.click();
 		
